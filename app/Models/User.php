@@ -20,8 +20,11 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'mobile',
         'password',
+        'mobile_verified_at',
     ];
 
     /**
@@ -67,4 +70,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8',
+        'mobile' => 'required|digits:11|unique:users,mobile',
+        'username' => 'required|string|unique:users,username',
+        'name' => 'required|string',
+    ];
 }
