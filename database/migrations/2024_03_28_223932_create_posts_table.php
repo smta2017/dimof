@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id('id');
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('contact_phone_number')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
