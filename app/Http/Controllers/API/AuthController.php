@@ -19,7 +19,7 @@ class AuthController extends AppBaseController
      */
     public function __construct(private UserRepository $userRepo)
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -38,33 +38,6 @@ class AuthController extends AppBaseController
         return $this->respondWithToken($token);
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(RegsterRequest $request)
-    {
-        $user = User::create($request->all());
-
-        $OTP =  $this->userRepo::sentOTP();
-
-        return $this->sendResponse($OTP,'OTP has ben sent.');
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function verify_register(RegsterRequest $request)
-    {
-        if(!$this->userRepo::verifyOTP($request->otp,$request->user_mobile)){
-            return $this->sendError('wrong otp',400);
-        }
-
-        $user = User::create($request->all());
-
-        $token = auth()->login($user);
-
-        return $this->respondWithToken($token);
-    }
 
     /**
      * Get the authenticated User.

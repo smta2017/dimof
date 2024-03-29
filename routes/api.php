@@ -36,3 +36,6 @@ Route::group([
     Route::post('me',  [AuthController::class,'me']);
 
 });
+
+Route::resource('posts', App\Http\Controllers\API\PostAPIController::class)
+    ->except(['create', 'edit']);

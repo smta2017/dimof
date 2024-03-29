@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class RegisterController extends AppBaseController
 {
     /**
-     * Create a new AuthController instance.
+     * Create a new RegisterController instance.
      *
      * @return void
      */

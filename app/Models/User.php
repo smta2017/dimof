@@ -71,6 +71,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function Posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Post::class);
+    }
+    
     /**
      * Validation rules
      *
@@ -83,4 +88,5 @@ class User extends Authenticatable implements JWTSubject
         'username' => 'required|string|unique:users,username',
         'name' => 'required|string',
     ];
+
 }
