@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegsterRequest;
+use App\Http\Requests\API\RegsterRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -44,7 +44,7 @@ class RegisterController extends AppBaseController
 
         $user = User::where('mobile', $request->user_mobile)->first();
 
-        $token = auth()->login($user);
+        $token = auth('api')->login($user);
 
         return $this->sendResponse($token,'Seccess Token');
     }

@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends AppBaseController
 {
+    private $auth_user;
+
     /**
      * Create a new AuthController instance.
      *
@@ -19,7 +21,7 @@ class AuthController extends AppBaseController
      */
     public function __construct(private UserRepository $userRepo)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->auth_user = auth('api');
     }
 
     /**
@@ -31,7 +33,7 @@ class AuthController extends AppBaseController
     {
         $credentials = request(['mobile', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = $this->auth_user->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -46,7 +48,7 @@ class AuthController extends AppBaseController
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json($this->auth_user->user());
     }
 
     /**
@@ -56,7 +58,7 @@ class AuthController extends AppBaseController
      */
     public function logout()
     {
-        auth()->logout();
+        $this->auth_user->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -68,7 +70,7 @@ class AuthController extends AppBaseController
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken($this->auth_user->refresh());
     }
 
     /**
@@ -83,7 +85,7 @@ class AuthController extends AppBaseController
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => $this->auth_user->factory()->getTTL() * 60
         ]);
     }
 }
