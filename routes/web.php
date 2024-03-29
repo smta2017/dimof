@@ -31,3 +31,4 @@ Route::get('/users', [App\Http\Controllers\HomeController::class, 'index'])->nam
 // Route::put('/posts/{id}', [App\Http\Controllers\PostController::class,'update'])->name('posts.update');
 // Route::delete('/posts/{id}', [App\Http\Controllers\PostController::class,'destroy'])->name('posts.delete');
 Route::resource('posts', App\Http\Controllers\PostController::class);
+Route::resource('users', App\Http\Controllers\UserController::class);
